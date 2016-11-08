@@ -86,3 +86,11 @@ void integerlist_tofile(struct integerlist* list, FILE* file){
     fprintf("%d\t%d\n", i, integerlist_get(list, i));
   }
 }
+
+void integerlist_tofileformated(struct integerlist* list, FILE* file, int columns){
+  int size = integerlist_size(list);
+  int i = 0;
+  for(i; i < size; i++){
+    fprintf("%d\t%d\n", i, integerlist_get(list, i));
+  }
+}

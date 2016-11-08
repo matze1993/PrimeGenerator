@@ -15,5 +15,6 @@ extern int integerlist_size(struct integerlist* list);
 extern void integerlist_print(struct integerlist* list);
 extern void integerlist_printformated(struct integerlist* list, int columns);
 extern void integerlist_tofile(struct integerlist* list, FILE* file);
+extern void integerlist_tofileformated(struct integerlist* list, FILE* file, int columns);
 
 #endif /* SIMPLEINTEGERLIST_H */

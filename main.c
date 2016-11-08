@@ -21,6 +21,11 @@ int outputmode = 0;
 //upper boundary
 int upperBoundary = 100;
 
+//write to file?
+int writeToFile = 0;
+//write to console?
+int writeToConsole = 1;
+
 FILE* outputfile;
 
 //time meassuring variables
@@ -137,30 +142,75 @@ void argumentsparser(int argc, char* argv[]){
     }else if(strcmp(argv[i], "-f") == 0){
       i++;
       outputfile = fopen(argv[i], "w");
+      writeToFile = 1;
+    }else if(strcmp(argv[i], "-c") == 0){
+      i++;
+      writeToConsole = atoi(argv[i]);
     }else if(strcmp(argv[i], "-h") == 0){
       printhelp();
       exit(0);
     }else{
-      i++;
-      printf("Couldn't understand %s", argv[i]);
+      printf("Couldn't understand %s\r\n", argv[i]);
     }
   }
 }
 
 int main(int argc, char* argv[]){
+  printf("\n");
   begin = clock();
   void (*primalgorithm)(int, struct integerlist*);
   if(argc > 1){
     argumentsparser(argc, argv);
   }
-  if(modus == 0){
+  switch(modus){
+    case 0:
     primalgorithm = &primeGen;
-  }else if(modus == 1){
+    printf("Using the standard Generator.\r\n");
+    break;
+    case 1:
     primalgorithm = &stupidPrimeGen;
-  }else if(modus == 2){
+    printf("Using the slow Generator.\r\n");
+    break;
+    case 2:
     primalgorithm = &betterPrimeGen;
+    printf("Using the faster Generator.\r\n");
+    break;
+    default:
+    modus = 0;
+    printf("Using the standard Generator.\r\n");
+    break;
   }
-  printf("\nmodus\t\t%d\r\noutputmode\t%d\r\nupperBoundary\t%d\r\n", modus, outputmode, upperBoundary);
+  switch(outputmode){
+    case 0:
+    printf("Only printing stats.\r\n");
+    break;
+    case 1:
+    printf("Printing stats and primes.\r\n");
+    break;
+    case 2:
+    printf("Printing stats and the primes to a table.\r\n");
+    break;
+    default:
+    outputmode = 0;
+    printf("Only printing stats.\r\n");
+    break;
+  }
+  switch(writeToConsole){
+    case 1:
+    printf("Output to console.\r\n");
+    break;
+    case 0:
+    default:
+    writeToConsole = 0;
+    printf("Do not write to console.\r\n");
+    break;
+  }
+  if(upperBoundary > 2){
+    printf("Upper boundary is %d.\r\n", upperBoundary);
+  } else {
+    upperBoundary = 100;
+    printf("Invalid upper boundary value. Defaulting to 100\r\n");
+  }
   printf("init list");
   struct integerlist* list = integerlist_init(2);  //initializing with 2
   printf(" successful\r");
@@ -171,23 +221,48 @@ int main(int argc, char* argv[]){
   endcomputing = clock();
   finish = clock();
   char* stats = statstring(integerlist_size(list));
-  if(outputmode == 0){
-    puts(stats);
-  }else if(outputmode == 1){
-    puts(stats);
-    integerlist_print(list);
-  }else if(outputmode == 2){
-    puts(stats);
-    printf("How many columns??\n");
-    int columns;
-    scanf("%i", &columns);
-    printf("\n");
-    integerlist_printformated(list, columns);
-  }else if(outputmode == 3){
-    //TODO
-  }else if(outputmode == 4){
-    //TODO
-  }
+  if(writeToConsole)
+    switch(outputmode){
+      case 0:
+      puts(stats);
+      break;
+      case 1:
+      puts(stats);
+      integerlist_print(list);
+      break;
+      case 2:
+      puts(stats);
+      printf("How many columns??\n");
+      int columns;
+      scanf("%i", &columns);
+      printf("\n");
+      integerlist_printformated(list, columns);
+      break;
+      default:
+      printf("Oops, something went wrong :(\r\n)");
+    }
+  if(writeToFile)
+    switch(outputmode){
+      case 0:
+      fputs(outputfile, stats);
+      break;
+      case 1:
+      fputs(outputfile, stats);
+      integerlist_tofile(list, outputfile);
+      break;
+      case 2:
+      puts(stats);
+      printf("How many columns??\n");
+      int columns;
+      scanf("%i", &columns);
+      printf("\n");
+      integerlist_tofileformated(list, outputfile, columns);
+      break;
+      default:
+      printf("Oops, something went wrong :(\r\n)");
+    }
+  if(outputfile != NULL)
+    fclose(outputfile);
   integerlist_free(list);
   free(stats);
   return 0;
