@@ -1,0 +1,4 @@
+pls add further bugs you encounter
+
+>writing to file not working
+>slow gen somehow not working

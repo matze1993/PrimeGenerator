@@ -205,6 +205,15 @@ int main(int argc, char* argv[]){
     printf("Do not write to console.\r\n");
     break;
   }
+  switch(writeToFile){
+    case 1:
+    printf("Output to file.\r\n");
+    case 0:
+    default:
+    writeToFile = 0;
+    printf("Do not write to file.\r\n");
+    break;
+  }
   if(upperBoundary > 2){
     printf("Upper boundary is %d.\r\n", upperBoundary);
   } else {
@@ -241,9 +250,10 @@ int main(int argc, char* argv[]){
       default:
       printf("Oops, something went wrong :(\r\n)");
     }
-  if(writeToFile)
+  if(writeToFile && outputfile != NULL)
     switch(outputmode){
       case 0:
+      fputs(outputfile, "Hallo Welt\r\n");
       fputs(outputfile, stats);
       break;
       case 1:
@@ -261,8 +271,10 @@ int main(int argc, char* argv[]){
       default:
       printf("Oops, something went wrong :(\r\n)");
     }
-  if(outputfile != NULL)
+  if(outputfile != NULL){
+    fputs(outputfile, "\0");
     fclose(outputfile);
+  }
   integerlist_free(list);
   free(stats);
   return 0;
