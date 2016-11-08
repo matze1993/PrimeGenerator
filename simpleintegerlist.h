@@ -13,6 +13,7 @@ extern int integerlist_get(struct integerlist* list, int index);
 extern int integerlist_getLast(struct integerlist* list);
 extern int integerlist_size(struct integerlist* list);
 extern void integerlist_print(struct integerlist* list);
+extern void integerlist_printformated(struct integerlist* list, int columns);
 extern void integerlist_tofile(struct integerlist* list, FILE* file);
 
 #endif /* SIMPLEINTEGERLIST_H */

@@ -13,8 +13,9 @@ int modus = 0;
 //default outputmode: 0
 //outputmode 0: writing stats to console
 //outputmode 1: writing stats+primes to console
-//outputmode 2: writing stats to file
-//outputmode 3: writing stats+primes to console
+//outputmode 1: writing stats+primes to console in formated way
+//outputmode 3: writing stats to file
+//outputmode 4: writing stats+primes to console
 int outputmode = 0;
 
 //upper boundary
@@ -176,8 +177,15 @@ int main(int argc, char* argv[]){
     puts(stats);
     integerlist_print(list);
   }else if(outputmode == 2){
-    //TODO
+    puts(stats);
+    printf("How many columns??\n");
+    int columns;
+    scanf("%i", &columns);
+    printf("\n");
+    integerlist_printformated(list, columns);
   }else if(outputmode == 3){
+    //TODO
+  }else if(outputmode == 4){
     //TODO
   }
   integerlist_free(list);

@@ -32,7 +32,7 @@ int integerlist_get(struct integerlist* list, int index){
     temp = temp->next;
   }
   if(i != 0){
-    printf("List not big enough, return zero information");
+    //printf("List not big enough, return zero information");
     return 0;
   } else {
     return temp->value;
@@ -63,6 +63,20 @@ void integerlist_print(struct integerlist* list){
   for(i; i < size; i++){
     printf("\t%d\t\t:\t\t%d\r\n", (i+1), integerlist_get(list, i));
   }
+}
+
+void integerlist_printformated(struct integerlist* list, int columns){
+  int listsize = integerlist_size(list);
+  int rem = listsize % columns;
+  int offset = (listsize / columns) + (rem != 0);
+  int i = 0; int j = 0;
+  for(i; i < offset; i++){
+    for(j = 0; j < columns; j++){
+      printf("%d\t", integerlist_get(list, i+offset*j));
+    }
+    printf("\r\n");
+  }
+  printf("\n");
 }
 
 void integerlist_tofile(struct integerlist* list, FILE* file){
