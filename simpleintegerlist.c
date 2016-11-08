@@ -65,7 +65,7 @@ void integerlist_print(struct integerlist* list){
   }
 }
 
-char* integerlist_tofile(struct integerlist* list, FILE* file){
+void integerlist_tofile(struct integerlist* list, FILE* file){
   int size = integerlist_size(list);
   int i = 0;
   for(i; i < size; i++){
