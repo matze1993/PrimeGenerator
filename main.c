@@ -123,7 +123,7 @@ char* statstring(int primescount){
   double timeBegintoFin = (double)(finish-begin) / CLOCKS_PER_SEC;
   double timePrimeCalc = (double)(endcomputing-startcomputing) / CLOCKS_PER_SEC;
   char* buffer = malloc(sizeof(char)*255);
-  sprintf(buffer, "Stats:\r\nInterval:\t\t\t[2,%d)\r\nFound:\t\t\t\t%d\r\nComplete Runtime:\t\t%fs\r\nPrimecalculation:\t\t%fs\r\n",upperBoundary, primescount, timeBegintoFin, timePrimeCalc);
+  sprintf(buffer, "Stats:\r\nInterval:\t\t\t[2,%d)\r\nFound:\t\t\t\t%d\r\nComplete Runtime:\t\t%fs\r\nPrimecalculation:\t\t%fs\r\n", upperBoundary, primescount, timeBegintoFin, timePrimeCalc);
   return buffer;
 }
 
@@ -208,6 +208,7 @@ int main(int argc, char* argv[]){
   switch(writeToFile){
     case 1:
     printf("Output to file.\r\n");
+    break;
     case 0:
     default:
     writeToFile = 0;
@@ -230,7 +231,7 @@ int main(int argc, char* argv[]){
   endcomputing = clock();
   finish = clock();
   char* stats = statstring(integerlist_size(list));
-  if(writeToConsole)
+  if(writeToConsole){
     switch(outputmode){
       case 0:
       puts(stats);
@@ -250,11 +251,11 @@ int main(int argc, char* argv[]){
       default:
       printf("Oops, something went wrong :(\r\n)");
     }
-  if(writeToFile && outputfile != NULL)
+  }
+  if(writeToFile == 1 && outputfile != NULL){
     switch(outputmode){
       case 0:
-      fputs(outputfile, "Hallo Welt\r\n");
-      fputs(outputfile, stats);
+      fprintf(outputfile, "%s", stats);
       break;
       case 1:
       fputs(outputfile, stats);
@@ -271,8 +272,9 @@ int main(int argc, char* argv[]){
       default:
       printf("Oops, something went wrong :(\r\n)");
     }
+  }
   if(outputfile != NULL){
-    fputs(outputfile, "\0");
+    fprintf(outputfile, "\0");
     fclose(outputfile);
   }
   integerlist_free(list);

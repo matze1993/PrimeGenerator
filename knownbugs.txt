@@ -1,4 +1,7 @@
 pls add further bugs you encounter
 
->writing to file not working
->slow gen somehow not working
+>slow gen somehow not working.
+>some outputmodes do not work yet.
+
+Fixed:
+<>writing to file not working - working now... crucial "break" was missing.. it's sometimes nasty to program while being tired af.
