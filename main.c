@@ -65,8 +65,7 @@ void stupidPrimeGen(int maxNumber, struct integerlist* list){
   int actNumber = 3;
   for(actNumber; actNumber < maxNumber; actNumber++){
     int isPrime = 1;
-    int size = integerlist_size(list);
-    int i = 0;
+    int i = 2;
     while(i < actNumber && isPrime){
       printf("%2.1f%%\r", 100*((double) (actNumber+1) / (double) maxNumber));
       int rem = actNumber%i;
